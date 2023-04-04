@@ -30,6 +30,7 @@ class _SignInState extends State<SignIn> {
     );
   }
 
+  //Profile login details funtion
   Column buildProfileView() {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -54,6 +55,7 @@ class _SignInState extends State<SignIn> {
     );
   }
 
+  //Sign in with Google button Ui
   FloatingActionButton buildLoginButton() {
     return FloatingActionButton.extended
       (onPressed: () {
