@@ -29,7 +29,7 @@ Widget build(BuildContext context) {
 						//after spalsh screen login page loading
 						Timer(Duration(seconds: 3), () {
 							Navigator.of(context)
-									.pushReplacement(MaterialPageRoute(builder: (_) => Login()));
+									.pushReplacement(MaterialPageRoute(builder: (_) => SignInScreen()));
 						});
 						},
 						controller: _controller,
