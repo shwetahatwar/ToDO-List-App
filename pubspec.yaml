@@ -41,11 +41,17 @@ dependencies:
   dots_indicator: ^2.1.0
   smooth_page_indicator: ^1.0.0
   firebase_auth: ^3.3.3
-  cloud_firestore: ^3.1.16
+  cloud_firestore: ^3.5.1
   provider: ^6.0.3
   firebase_core_platform_interface: 4.5.1
   firebase_messaging: ^13.0.4
   firebase_core: ^1.24.0
+  sqflite: ^2.0.3
+  shared_preferences: ^2.0.15
+  flutter_secure_storage: ^6.0.0
+  calendar_date_picker2: ^0.4.9
+  path_provider: ^2.0.14
+
 
 
 

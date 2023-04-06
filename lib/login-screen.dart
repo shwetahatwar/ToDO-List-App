@@ -162,6 +162,7 @@ import 'package:todo_list_makeing_app/reset_password.dart';
 import 'package:todo_list_makeing_app/reusable_widgets/reusable_widgets.dart';
 import 'package:todo_list_makeing_app/signIn.dart';
 import 'package:todo_list_makeing_app/sign_in_controller.dart';
+import 'package:todo_list_makeing_app/todo_list.dart';
 
 import 'SignUp.dart';
 import 'Utils/colors_utils.dart';
@@ -177,9 +178,7 @@ class _SignInScreenState extends State<SignInScreen> {
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _passwordTextController = TextEditingController();
   final controller = Get.put(LoginController());
-  //final fbLogin = FacebookLogin();
   bool isLoggedIn = false;
- // static final FacebookLogin facebookSignIn1 = new FacebookLogin();
   late String name, image;
 
   GoogleSignInAccount? _currentUser;
@@ -207,19 +206,14 @@ class _SignInScreenState extends State<SignInScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              hexStringToColor("CB2B93"),
-              hexStringToColor("9546C4"),
-              hexStringToColor("5E61F4")
-            ],
-                begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+           color: Colors.blue.shade900),
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(
                 20, MediaQuery.of(context).size.height * 0.2, 20, 0),
             child: Column(
               children: <Widget>[
-                logoWidget("Img/todo2.png"),
+                logoWidget("Img/todocover.png"),
                 const SizedBox(
                   height: 10,
                 ),
@@ -241,7 +235,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       password: _passwordTextController.text)
                       .then((value) {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
+                        MaterialPageRoute(builder: (context) => MyTODOPage(title: '',)));
                   }).onError((error, stackTrace) {
                     print("Error ${error.toString()}");
                   });
@@ -250,9 +244,11 @@ class _SignInScreenState extends State<SignInScreen> {
                 //   facebookSignIn();
                 // }),
 
-                signUpOption(),
+
                 //_buildWidget(),
+                //googleSignIn(),
                 buildLoginButton(),
+                signUpOption(),
                 //googleSignIn(),
               ],
             ),
@@ -271,7 +267,7 @@ class _SignInScreenState extends State<SignInScreen> {
         height: 32,
         width: 32,
       ),
-      label: Text('Sign in with Google'),
+      label: Text(''),
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,);
   }

@@ -27,7 +27,7 @@ Widget build(BuildContext context) {
 	// Title of App
 	title: 'TODO List APP',
 	theme: ThemeData(
-		primaryColor: Color.fromARGB(111, 111, 111, 111)
+		primaryColor: Colors.blue.shade900
 	),
 
 		
