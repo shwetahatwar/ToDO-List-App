@@ -2,10 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'HomePage.dart';
-import 'firebase_options.dart';
-import 'login-screen.dart';
 
 void main() async {
 	WidgetsFlutterBinding.ensureInitialized();

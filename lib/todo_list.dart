@@ -15,19 +15,25 @@ class _MyHomePageState extends State<MyTODOPage> {
   List todos = List.empty();
   String title = "";
   String description = "";
+  String date = "";
+  TextEditingController dateInputController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    todos = ["Hello", "Hey There"];
+    todos = ["Hello", "Hey There","2023-04-10"];
   }
 
   createToDo() {
     DocumentReference documentReference =
     FirebaseFirestore.instance.collection("MyTodos").doc(title);
 
+    DateTime currentDateTime = DateTime.now();
+
     Map<String, String> todoList = {
       "todoTitle": title,
-      "todoDesc": description
+      "todoDesc": description,
+      "todoDate": date,
     };
 
     documentReference
@@ -36,11 +42,15 @@ class _MyHomePageState extends State<MyTODOPage> {
   }
 
   deleteTodo(item) {
-
     DocumentReference documentReference =
     FirebaseFirestore.instance.collection("MyTodos").doc(item);
-
     documentReference.delete().whenComplete(() => print("deleted successfully"));
+  }
+
+  editTodo(item) {
+    DocumentReference documentReference =
+    FirebaseFirestore.instance.collection("MyTodos").doc(item);
+    documentReference.delete().whenComplete(() => print("Edited successfully"));
   }
 
   @override
@@ -68,20 +78,52 @@ class _MyHomePageState extends State<MyTODOPage> {
                         elevation: 4,
                         child: ListTile(
                           title: Text((documentSnapshot != null) ? (documentSnapshot["todoTitle"]) : ""),
-                          subtitle: Text((documentSnapshot != null)
-                              ? ((documentSnapshot["todoDesc"] != null)
-                              ? documentSnapshot["todoDesc"]
-                              : "")
-                              : ""),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            color: Colors.red,
-                            onPressed: () {
-                              setState(() {
-                                //todos.removeAt(index);
-                                deleteTodo((documentSnapshot != null) ? (documentSnapshot["todoTitle"]) : "");
-                              });
-                            },
+
+                          subtitle: Column(
+                            children: [
+                              Text((documentSnapshot != null)
+                                  ? ((documentSnapshot["todoDesc"] != null)
+                                  ? documentSnapshot["todoDesc"]
+                                  : "")
+                                  : ""),
+
+                        Text((documentSnapshot != null)
+                            ? ((documentSnapshot["todoDate"] != null)
+                            ? documentSnapshot["todoDate"]
+                            : "")
+                            : ""),
+                            ],
+                          ),
+                          //trailing: Text((documentSnapshot != null) ? (documentSnapshot["todoDate"]) : ""),
+                          // trailing: IconButton(
+                          //   icon: const Icon(Icons.delete),
+                          //   color: Colors.red,
+                          //   onPressed: () {
+                          //     setState(() {
+                          //       //todos.removeAt(index);
+                          //       deleteTodo((documentSnapshot != null) ? (documentSnapshot["todoTitle"]) : "");
+                          //     });
+                          //   },
+                          // ),
+                          trailing: Wrap(
+                            spacing: 12, // space between two icons
+                            children: <Widget>[
+                              IconButton(icon: const Icon(Icons.delete),
+                                color: Colors.red,
+                                onPressed: () {
+                                setState(() {
+                                  deleteTodo((documentSnapshot != null) ? (documentSnapshot["todoTitle"]) : "");
+                                });
+                                },),
+
+                              IconButton(icon: const Icon(Icons.edit),
+                                  color: Colors.green,
+                              onPressed: (){
+                                setState(() {
+                                  editTodo((documentSnapshot != null) ? (documentSnapshot["todoTitle"]) : "");
+                                });
+                              },),
+                            ],
                           ),
                         ),
                       ));
@@ -100,27 +142,52 @@ class _MyHomePageState extends State<MyTODOPage> {
         onPressed: () {
           showDialog(
               context: context,
+              // builder: (context) => AddTodoDialogWidget(),
               builder: (BuildContext context) {
                 return AlertDialog(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   title: const Text("Add Todo"),
-                  
+
                   content: Container(
-                    width: 400,
-                    height: 100,
+                    width: 500,
+                    height: 300,
                     child: Column(
                       children: [
-                        TextField(
-                          onChanged: (String value) {
-                            title = value;
-                          },
-                        ),
-                        TextField(
-                          onChanged: (String value) {
-                            description = value;
-                          },
-                        ),
+                        // Text("Title",style: TextStyle(color: Colors.black),textAlign: TextAlign.left,),
+                        // TextField(
+                        //   onChanged: (String value) {
+                        //     title = value;
+                        //   },
+                        // ),
+                        buildTitle(),
+                        // Text("Description",style: TextStyle(color: Colors.black),textAlign: TextAlign.left,),
+                        // TextField(
+                        //   onChanged: (String value) {
+                        //     description = value;
+                        //   },
+                        // ),
+                        buildDescription(),
+                        // Text("Date",style: TextStyle(color: Colors.black),textAlign: TextAlign.left,),
+                        // TextField(
+                        //   onChanged: (String value) {
+                        //     date = value ;
+                        //   },
+                        //   controller: dateInputController,
+                        //   readOnly: true,
+                        //   onTap: () async {
+                        //     DateTime? pickedDate = await showDatePicker(
+                        //         context: context,
+                        //         initialDate: DateTime.now(),
+                        //         firstDate: DateTime(1950),
+                        //         lastDate: DateTime(2050));
+                        //
+                        //     if (pickedDate != null) {
+                        //       dateInputController.text =pickedDate.toString();
+                        //     }
+                        //   },
+                        // ),
+                        buildDate(),
                       ],
                     ),
                   ),
@@ -150,7 +217,8 @@ class _MyHomePageState extends State<MyTODOPage> {
                     )
                   ],
                 );
-              });
+              }
+              );
         },
         backgroundColor: Colors.blue.shade900,
         child: const Icon(
@@ -160,4 +228,54 @@ class _MyHomePageState extends State<MyTODOPage> {
       ),
     );
   }
+  Widget buildTitle() => TextFormField(
+    maxLines: 1,
+    initialValue: title,
+    onChanged: (String value) {
+      title = value;
+    },
+    validator: (title) {
+      if (title!.isEmpty) {
+        return 'The title cannot be empty';
+      }
+      return null;
+    },
+    decoration: InputDecoration(
+      border: UnderlineInputBorder(),
+      labelText: 'Title',
+    ),
+  );
+
+  Widget buildDescription() => TextFormField(
+    maxLines: 3,
+    initialValue: description,
+    onChanged: (String value) {
+      description = value;
+    },
+    decoration: InputDecoration(
+      border: UnderlineInputBorder(),
+      labelText: 'Description',
+    ),
+  );
+
+  Widget buildDate() => TextField(
+    maxLines: 3,
+    onChanged: (String value) {
+      date = value ;
+    },
+    controller: dateInputController,
+    readOnly: true,
+    onTap: () async {
+      DateTime? pickedDate = await showDatePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(1950),
+          lastDate: DateTime(2050));
+
+      if (pickedDate != null) {
+        dateInputController.text =pickedDate.toString();
+      }
+    },
+  );
 }
+

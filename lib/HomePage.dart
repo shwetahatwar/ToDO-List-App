@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:todo_list_makeing_app/signIn.dart';
 import 'Walkthrough-screens/Page1.dart';
 import 'Walkthrough-screens/Page2.dart';
 import 'Walkthrough-screens/Page3.dart';
