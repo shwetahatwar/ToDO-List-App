@@ -7,7 +7,7 @@ import 'Provider/todoProvider.dart';
 class EditTodoPage extends StatefulWidget {
   final Todo todo;
 
-  const EditTodoPage({required Key key, required this.todo}) : super(key: key);
+  const EditTodoPage({required this.todo}) : super();
 
   @override
   _EditTodoPageState createState() => _EditTodoPageState();
@@ -18,7 +18,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
 
   late String title;
   late String description;
-  late String date;
+  late String time;
 
   @override
   void initState() {
@@ -26,12 +26,14 @@ class _EditTodoPageState extends State<EditTodoPage> {
 
     title = widget.todo.title;
     description = widget.todo.description;
+    time = widget.todo.time;
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       title: Text('Edit Todo'),
+      backgroundColor: Colors.blue.shade900,
       actions: [
         IconButton(
           icon: Icon(Icons.delete),
@@ -52,11 +54,11 @@ class _EditTodoPageState extends State<EditTodoPage> {
         child: TodoFormWidget(
           title: title,
           description: description,
-          date: date,
+          date: time,
           onChangedTitle: (title) => setState(() => this.title = title),
           onChangedDescription: (description) =>
               setState(() => this.description = description),
-          onChangedDate: (date) => setState(() => this.date = date),
+          onChangedDate: (date) => setState(() => this.time = time),
           onSavedTodo: saveTodo,
         ),
       ),
@@ -71,7 +73,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
     } else {
       final provider = Provider.of<TodosProvider>(context, listen: false);
 
-      provider.updateTodo(widget.todo, title, description);
+      provider.updateTodo(widget.todo, title, description,time);
 
       Navigator.of(context).pop();
     }

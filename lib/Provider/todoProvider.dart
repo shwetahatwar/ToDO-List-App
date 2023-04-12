@@ -2,36 +2,9 @@ import 'package:flutter/cupertino.dart';
 import '../Model/todo.dart';
 
 class TodosProvider extends ChangeNotifier {
-  List<Todo> _todos = [
-    Todo(
-      createdTime: DateTime.now(),
-      title: 'Buy Food 😋',
-      description: '''- Eggs
-- Milk
-- Bread
-- Water''', id: '',
-    ),
-    Todo(
-      createdTime: DateTime.now(),
-      title: 'Plan family trip to Norway',
-      description: '''- Rent some hotels
-- Rent a car
-- Pack suitcase''', id: '',
-    ),
-    Todo(
-      createdTime: DateTime.now(),
-      title: 'Walk the Dog 🐕', id: '',
-    ),
-    Todo(
-      createdTime: DateTime.now(),
-      title: 'Plan Jacobs birthday party 🎉🥳', id: '',
-    ),
-  ];
+  List<Todo> _todos = [];
 
   List<Todo> get todos => _todos.where((todo) => todo.isDone == false).toList();
-
-  List<Todo> get todosCompleted =>
-      _todos.where((todo) => todo.isDone == true).toList();
 
   void addTodo(Todo todo) {
     _todos.add(todo);
@@ -45,16 +18,10 @@ class TodosProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool toggleTodoStatus(Todo todo) {
-    todo.isDone = !todo.isDone;
-    notifyListeners();
-
-    return todo.isDone;
-  }
-
-  void updateTodo(Todo todo, String title, String description) {
+  void updateTodo(Todo todo, String title, String description, String time) {
     todo.title = title;
     todo.description = description;
+    todo.time = time;
 
     notifyListeners();
   }

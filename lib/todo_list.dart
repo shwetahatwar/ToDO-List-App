@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_list_makeing_app/Model/todo.dart';
+
+import 'editTodoList.dart';
 
 class MyTODOPage extends StatefulWidget {
   const MyTODOPage({Key? key, required this.title}) : super(key: key);
@@ -15,13 +18,13 @@ class _MyHomePageState extends State<MyTODOPage> {
   List todos = List.empty();
   String title = "";
   String description = "";
-  String date = "";
+  String time = Timestamp(0,1).toDate().toString();
   TextEditingController dateInputController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    todos = ["Hello", "Hey There","2023-04-10"];
+    todos = ["Hello", "Hey There",2023-04-10];
   }
 
   createToDo() {
@@ -33,7 +36,7 @@ class _MyHomePageState extends State<MyTODOPage> {
     Map<String, String> todoList = {
       "todoTitle": title,
       "todoDesc": description,
-      "todoDate": date,
+      "todoTime": time,
     };
 
     documentReference
@@ -88,8 +91,8 @@ class _MyHomePageState extends State<MyTODOPage> {
                                   : ""),
 
                         Text((documentSnapshot != null)
-                            ? ((documentSnapshot["todoDate"] != null)
-                            ? documentSnapshot["todoDate"]
+                            ? ((documentSnapshot["todoTime"] != null)
+                            ? documentSnapshot["todoTime"]
                             : "")
                             : ""),
                             ],
@@ -119,9 +122,10 @@ class _MyHomePageState extends State<MyTODOPage> {
                               IconButton(icon: const Icon(Icons.edit),
                                   color: Colors.green,
                               onPressed: (){
-                                setState(() {
-                                  editTodo((documentSnapshot != null) ? (documentSnapshot["todoTitle"]) : "");
-                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => EditTodoPage(todo: Todo(createdTime: DateTime.now(),title: "",time: "",description: "",id: "",isDone: true))),
+                                );
                               },),
                             ],
                           ),
@@ -261,7 +265,7 @@ class _MyHomePageState extends State<MyTODOPage> {
   Widget buildDate() => TextField(
     maxLines: 3,
     onChanged: (String value) {
-      date = value ;
+      time = value ;
     },
     controller: dateInputController,
     readOnly: true,
@@ -278,4 +282,6 @@ class _MyHomePageState extends State<MyTODOPage> {
     },
   );
 }
+
+
 
