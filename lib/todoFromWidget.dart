@@ -82,7 +82,7 @@ class TodoFormWidget extends StatelessWidget {
         backgroundColor: MaterialStateProperty.all(Colors.blue.shade900),
       ),
       onPressed: onSavedTodo,
-      child: Text('Add'),
+      child: Text('Update'),
     ),
   );
 

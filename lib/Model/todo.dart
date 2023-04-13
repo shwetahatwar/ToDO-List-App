@@ -5,7 +5,7 @@ class TodoField {
   static const createdTime = 'createdTime';
 }
 
-class Todo {
+class MyTodos {
   DateTime createdTime;
   String title;
   String id;
@@ -13,7 +13,7 @@ class Todo {
  String time;
   bool isDone;
 
-  Todo({
+  MyTodos({
     required this.createdTime,
     required this.title,
     required this.time,
@@ -21,4 +21,14 @@ class Todo {
     required this.id,
     this.isDone = false,
   });
+
+  Map<String, Object?> toJson() => {
+    'createdTime': createdTime,
+    'title': title,
+    'time': time,
+    'description': description,
+    'id': id,
+    'isDone': isDone,
+  };
 }
+

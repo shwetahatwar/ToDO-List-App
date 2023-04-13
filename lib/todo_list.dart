@@ -15,7 +15,10 @@ class MyTODOPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyTODOPage> {
+  final _formKey = GlobalKey<FormState>();
+
   List todos = List.empty();
+  String id = "";
   String title = "";
   String description = "";
   String time = Timestamp(0,1).toDate().toString();
@@ -24,7 +27,7 @@ class _MyHomePageState extends State<MyTODOPage> {
   @override
   void initState() {
     super.initState();
-    todos = ["Hello", "Hey There",2023-04-10];
+    todos = ["id","Hello", "Hey There",2023-04-10];
   }
 
   createToDo() {
@@ -34,6 +37,7 @@ class _MyHomePageState extends State<MyTODOPage> {
     DateTime currentDateTime = DateTime.now();
 
     Map<String, String> todoList = {
+      "todoId": id,
       "todoTitle": title,
       "todoDesc": description,
       "todoTime": time,
@@ -50,10 +54,10 @@ class _MyHomePageState extends State<MyTODOPage> {
     documentReference.delete().whenComplete(() => print("deleted successfully"));
   }
 
-  editTodo(item) {
+  updateEditTodo(MyTodos todo) async {
     DocumentReference documentReference =
-    FirebaseFirestore.instance.collection("MyTodos").doc(item);
-    documentReference.delete().whenComplete(() => print("Edited successfully"));
+    FirebaseFirestore.instance.collection("MyTodos").doc();
+    await documentReference.update(todo.toJson());
   }
 
   @override
@@ -80,6 +84,7 @@ class _MyHomePageState extends State<MyTODOPage> {
                       child: Card(
                         elevation: 4,
                         child: ListTile(
+                          leading: CircleAvatar(child: Text('${index + 1}')),
                           title: Text((documentSnapshot != null) ? (documentSnapshot["todoTitle"]) : ""),
 
                           subtitle: Column(
@@ -108,27 +113,52 @@ class _MyHomePageState extends State<MyTODOPage> {
                           //     });
                           //   },
                           // ),
-                          trailing: Wrap(
-                            spacing: 12, // space between two icons
-                            children: <Widget>[
-                              IconButton(icon: const Icon(Icons.delete),
-                                color: Colors.red,
-                                onPressed: () {
-                                setState(() {
-                                  deleteTodo((documentSnapshot != null) ? (documentSnapshot["todoTitle"]) : "");
-                                });
-                                },),
-
-                              IconButton(icon: const Icon(Icons.edit),
-                                  color: Colors.green,
-                              onPressed: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => EditTodoPage(todo: Todo(createdTime: DateTime.now(),title: "",time: "",description: "",id: "",isDone: true))),
-                                );
-                              },),
-                            ],
-                          ),
+                           trailing: PopupMenuButton(
+                             onSelected: (value){
+                               if(value == 'edit'){
+                                    setState(() {
+                                      Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => EditTodoPage(todo: MyTodos(createdTime: DateTime.now(),
+                                                      time: time,title: title,description: description,id: id,isDone: true),key: _formKey)),
+                                                );
+                                    });
+                               }else if(value == 'delete'){
+                                    setState(() {
+                                      deleteTodo((documentSnapshot != null) ? (documentSnapshot["todoTitle"]) : "");
+                                    });
+                               }
+                             },
+                             itemBuilder: (context) {
+                                return [
+                                  PopupMenuItem(child: Text('Edit'),
+                                  value: 'edit',),
+                                  PopupMenuItem(child: Text('Delete'),
+                                  value: 'delete',)
+                                ];
+                             },
+                           )
+                          // Wrap(
+                          //   spacing: 12, // space between two icons
+                          //   children: <Widget>[
+                          //     IconButton(icon: const Icon(Icons.delete),
+                          //       color: Colors.red,
+                          //       onPressed: () {
+                          //       setState(() {
+                          //         deleteTodo((documentSnapshot != null) ? (documentSnapshot["todoTitle"]) : "");
+                          //       });
+                          //       },),
+                          //
+                          //     IconButton(icon: const Icon(Icons.edit),
+                          //         color: Colors.green,
+                          //     onPressed: (){
+                          //       Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(builder: (context) => EditTodoPage(todo: Todo(createdTime: DateTime.now(),title: "",time: "",description: "",id: "",isDone: true))),
+                          //       );
+                          //     },),
+                          //   ],
+                          // ),
                         ),
                       ));
                 });

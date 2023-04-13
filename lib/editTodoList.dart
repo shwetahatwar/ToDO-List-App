@@ -5,9 +5,9 @@ import 'Model/todo.dart';
 import 'Provider/todoProvider.dart';
 
 class EditTodoPage extends StatefulWidget {
-  final Todo todo;
+  final MyTodos todo;
 
-  const EditTodoPage({required this.todo}) : super();
+  const EditTodoPage({required Key key, required this.todo}) : super(key: key);
 
   @override
   _EditTodoPageState createState() => _EditTodoPageState();
@@ -16,17 +16,33 @@ class EditTodoPage extends StatefulWidget {
 class _EditTodoPageState extends State<EditTodoPage> {
   final _formKey = GlobalKey<FormState>();
 
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
   late String title;
   late String description;
   late String time;
+  bool isEdit = false;
 
   @override
   void initState() {
     super.initState();
+    final todo = widget.todo;
 
     title = widget.todo.title;
     description = widget.todo.description;
     time = widget.todo.time;
+
+    if(todo != null) {
+      isEdit = true;
+      final title = widget.todo.title;
+      final description = widget.todo.description;
+
+      titleController.text = title;
+      descriptionController.text = description;
+      time = widget.todo.time;
+
+    }
   }
 
   @override
@@ -41,7 +57,6 @@ class _EditTodoPageState extends State<EditTodoPage> {
             final provider =
             Provider.of<TodosProvider>(context, listen: false);
             provider.removeTodo(widget.todo);
-
             Navigator.of(context).pop();
           },
         )
@@ -68,13 +83,12 @@ class _EditTodoPageState extends State<EditTodoPage> {
   void saveTodo() {
     final isValid = _formKey.currentState?.validate();
 
-    if (!isValid!) {
+    if (isValid!) {
       return;
     } else {
-      final provider = Provider.of<TodosProvider>(context, listen: false);
+       final provider = Provider.of<TodosProvider>(context, listen: false);
 
       provider.updateTodo(widget.todo, title, description,time);
-
       Navigator.of(context).pop();
     }
   }

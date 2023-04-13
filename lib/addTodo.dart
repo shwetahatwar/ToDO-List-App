@@ -49,7 +49,7 @@ class _AddTodoDialogWidgetState extends State<AddTodoDialogWidget> {
     if (!isValid!) {
       return;
     } else {
-      final todo = Todo(
+      final todo = MyTodos(
         id: DateTime.now().toString(),
         title: title,
         description: description,
