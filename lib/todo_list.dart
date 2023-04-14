@@ -119,8 +119,7 @@ class _MyHomePageState extends State<MyTODOPage> {
                                     setState(() {
                                       Navigator.push(
                                                   context,
-                                                  MaterialPageRoute(builder: (context) => EditTodoPage(todo: MyTodos(createdTime: DateTime.now(),
-                                                      time: time,title: title,description: description,id: id,isDone: true),key: _formKey)),
+                                                  MaterialPageRoute(builder: (context) => UpdateTaskAlertDialog(title: title, description: description, time: time, id: title)),
                                                 );
                                     });
                                }else if(value == 'delete'){

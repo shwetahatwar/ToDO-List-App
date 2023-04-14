@@ -32,5 +32,6 @@ class TodosProvider extends ChangeNotifier {
     todo.description = description;
     todo.time = time;
     FirebaseApi.updateTodo(todo);
+    notifyListeners();
   }
 }

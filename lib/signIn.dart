@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:todo_list_makeing_app/sign_in_controller.dart';
+import 'package:todo_list_makeing_app/todo_list.dart';
 
 class SignIn extends StatefulWidget {
   final controller = Get.put(LoginController());
@@ -18,7 +19,9 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('SignIn Page'),),
+      appBar: AppBar(title: Text('User Log In Details'),
+        backgroundColor: Colors.blue.shade900,
+      ),
       body: Center(
         child: Obx(() {
           if (controller.googleAccount.value == null)
@@ -50,7 +53,15 @@ class _SignInState extends State<SignIn> {
           label: Text('Logout'),
           onPressed: (){
             controller.logout();
-          },)
+          },
+        ),
+        ActionChip(
+          avatar: Icon(Icons.dashboard_customize),
+            label: Text('Dashboard'),
+        onPressed: (){
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MyTODOPage(title: '')));
+        },)
       ],
     );
   }

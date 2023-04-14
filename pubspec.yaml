@@ -51,6 +51,7 @@ dependencies:
   flutter_secure_storage: ^6.0.0
   calendar_date_picker2: ^0.4.9
   path_provider: ^2.0.14
+  fluttertoast: ^8.2.1
 
 
 

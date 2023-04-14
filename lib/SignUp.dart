@@ -209,14 +209,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ))),
     );
   }
-
-// Future saveUserInfoToFireStore(FirebaseUser fUser) async{
-//   FirebaseFirestore.instance.collection("users").documents(fUser.uid).setData({
-//     "uid":fUser.uid,
-//     "email":fUser.email,
-//     "name": _userNameTextController.text.trim(),
-//     "url":userImageUrl,
-//   });
-//   await Ecomm
-// }
 }
