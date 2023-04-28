@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list_makeing_app/Model/todo.dart';
-
 import 'editTodoList.dart';
 
 class MyTODOPage extends StatefulWidget {
@@ -65,7 +64,7 @@ class _MyHomePageState extends State<MyTODOPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("TODO List"),
-        backgroundColor: Colors.blue.shade900,
+        backgroundColor: Colors.blue[800],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection("MyTodos").snapshots(),
@@ -178,9 +177,11 @@ class _MyHomePageState extends State<MyTODOPage> {
               // builder: (context) => AddTodoDialogWidget(),
               builder: (BuildContext context) {
                 return AlertDialog(
+                  backgroundColor: Colors.blue.shade900,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
-                  title: const Text("Add Todo"),
+                  title: Center(child: Text('Add new things',
+                    style: TextStyle(color: Colors.white),)),
 
                   content: Container(
                     width: 500,
@@ -233,7 +234,8 @@ class _MyHomePageState extends State<MyTODOPage> {
                           });
                           Navigator.of(context).pop();
                         },
-                        child: const Text("Add"),
+                        child: const Text("ADD YOUR THING",
+                          style: TextStyle(color: Colors.white),),
                         style: TextButton.styleFrom(
                           primary: Colors.blue.shade900, // Text Color
                         ),
@@ -243,7 +245,8 @@ class _MyHomePageState extends State<MyTODOPage> {
                       });
                       Navigator.of(context).pop();
                     },
-                        child: const Text("Cancel"),
+                        child: const Text("Cancel",
+                            style: TextStyle(color: Colors.white)),
                       style: TextButton.styleFrom(
                         primary: Colors.blue.shade900, // Text Color
                       ),

@@ -17,6 +17,7 @@ class _AddTodoDialogWidgetState extends State<AddTodoDialogWidget> {
 
   @override
   Widget build(BuildContext context) => AlertDialog(
+    backgroundColor: Colors.blue[800],
     content: Form(
       key: _formKey,
       child: Column(
@@ -24,7 +25,7 @@ class _AddTodoDialogWidgetState extends State<AddTodoDialogWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Add Todo',
+            'Add new thing',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 22,
